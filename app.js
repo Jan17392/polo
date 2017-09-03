@@ -1,2 +1,5 @@
 require('babel-register')
 require('./index.js')
+require('./loadBalances.js')
+//require('./handleOpenOrders.js')
+require('./server.js')
