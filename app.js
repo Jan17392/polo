@@ -1,5 +1,6 @@
 require('babel-register')
-require('./index.js')
+//require('./index.js')
+require('./bittrex_value_trading.js')
 require('./loadBalances.js')
 //require('./handleOpenOrders.js')
 require('./server.js')

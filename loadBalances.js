@@ -6,6 +6,9 @@ getBalances()
 .then((data) => {
   let balances = data['result']
   for(let entry in balances){
-    store.dispatch(updateCoinBalance(balances[entry]['Currency'], balances[entry]['Available']))
+    let altcoin = balances[entry]['Currency'].toLowerCase()
+    store.dispatch(updateCoinBalance('btrx', altcoin, balances[entry]))
   }
 })
+
+// TODO: Load Bter Altcoin balances
