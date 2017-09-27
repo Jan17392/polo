@@ -65,7 +65,7 @@ const runCalculation = (altcoin) => {
   getCandles(altcoin, 'fiveMin')
     .then(dataResult => {
       data = dataResult
-      closingPrices = _.pluck(data['result'], 'C')
+      closingPrices = _.pluck(data['result'], 'O')
       return calculateMACD(closingPrices)
     })
     .then(lastMACDResult => {
