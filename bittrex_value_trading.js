@@ -42,7 +42,10 @@ const altcoinsToMonitor = [
   'UBQ',
   'GAME',
   'WAVES',
-  'SNT'
+  'SNT',
+  'PTOY',
+  'BURST',
+  'ENRG'
 ]
 const fraction = 0.1
 
@@ -65,7 +68,7 @@ const runCalculation = (altcoin) => {
   getCandles(altcoin, 'fiveMin')
     .then(dataResult => {
       data = dataResult
-      closingPrices = _.pluck(data['result'], 'O')
+      closingPrices = _.pluck(data['result'], 'C')
       return calculateMACD(closingPrices)
     })
     .then(lastMACDResult => {
@@ -96,11 +99,23 @@ const runCalculation = (altcoin) => {
             let price = priceDetails['result'][0]['Ask']
             let stake = (balance * fraction) / price
             console.log('Stake: ' + stake + ' for ' + price + ' in ' + altcoin)
-            return placeOrder('buy', 'BTC', altcoin, stake, price)
-          })
-          .then((result) => {
-            console.log('Buy Order was submitted successfully')
-            store.dispatch(registerNewOrder(result['result']['uuid']))
+
+            getBalance('BTC')
+            .then((altBalanceResult) => {
+              let altcoinBalance = altBalanceResult['result']['Available']
+              if (altcoinBalance > 0) {
+                reject()
+              }else{
+                return placeOrder('buy', 'BTC', altcoin, stake, price)
+              }
+            })
+            .then((result) => {
+              console.log('Buy Order was submitted successfully')
+              store.dispatch(registerNewOrder(result['result']['uuid']))
+            })
+            .catch((error) => {
+              console.log('Already hold Coins of this type. Sell first, before buying more')
+            })
           })
           .catch((error) => {
             console.log('Error during Balance Request and Buy Placement')
