@@ -93,7 +93,7 @@ const runCalculation = (altcoin) => {
             return getMarketSummary(altcoin)
           })
           .then((priceDetails) => {
-            let price = priceDetails['result'][0]['Bid']
+            let price = priceDetails['result'][0]['Ask']
             let stake = (balance * fraction) / price
             console.log('Stake: ' + stake + ' for ' + price + ' in ' + altcoin)
             return placeOrder('buy', 'BTC', altcoin, stake, price)
@@ -114,7 +114,7 @@ const runCalculation = (altcoin) => {
             return getMarketSummary(altcoin)
           })
           .then((priceDetails) => {
-            let price = priceDetails['result'][0]['Ask']
+            let price = priceDetails['result'][0]['Bid']
             console.log('Stake: ' + balance + ' for ' + price + ' in ' + altcoin)
             return placeOrder('sell', 'BTC', altcoin, balance, price)
           })
