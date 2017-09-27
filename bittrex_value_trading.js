@@ -96,7 +96,7 @@ const runCalculation = (altcoin) => {
             let price = priceDetails['result'][0]['Bid']
             let stake = (balance * fraction) / price
             console.log('Stake: ' + stake + ' for ' + price + ' in ' + altcoin)
-            return placeOrder('buy', altcoin, stake, price)
+            return placeOrder('buy', 'BTC', altcoin, stake, price)
           })
           .then((result) => {
             console.log('Buy Order was submitted successfully')
@@ -116,7 +116,7 @@ const runCalculation = (altcoin) => {
           .then((priceDetails) => {
             let price = priceDetails['result'][0]['Ask']
             console.log('Stake: ' + balance + ' for ' + price + ' in ' + altcoin)
-            return placeOrder('sell', altcoin, balance, price)
+            return placeOrder('sell', 'BTC', altcoin, balance, price)
           })
           .then((result) => {
             console.log('Sell Order was submitted successfully')
