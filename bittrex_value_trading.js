@@ -104,9 +104,10 @@ const runCalculation = (altcoin) => {
             .then((altBalanceResult) => {
               let altcoinBalance = altBalanceResult['result']['Available']
               if (altcoinBalance > 0) {
-                reject()
+                //return placeOrder('buy', 'BTC', altcoin, stake * 0.5, price)
               }else{
-                return placeOrder('buy', 'BTC', altcoin, stake, price)
+                placeOrder('buy', 'BTC', altcoin, stake, price)
+                return placeOrder('sell', 'BTC', altcoin, stake, price * 1.05)
               }
             })
             .then((result) => {
@@ -120,27 +121,27 @@ const runCalculation = (altcoin) => {
           .catch((error) => {
             console.log('Error during Balance Request and Buy Placement')
           })
-      }else if(currentSignalRSI['newSignal'] === 'neutral' && currentSignalRSI['previousSignal'] === 'sell'){
-        let balance = 0
+        } //else if(currentSignalRSI['newSignal'] === 'neutral' && currentSignalRSI['previousSignal'] === 'sell'){
+      //   let balance = 0
 
-        getBalance(altcoin)
-          .then((balanceResult) => {
-            balance = balanceResult['result']['Available']
-            return getMarketSummary(altcoin)
-          })
-          .then((priceDetails) => {
-            let price = priceDetails['result'][0]['Bid']
-            console.log('Stake: ' + balance + ' for ' + price + ' in ' + altcoin)
-            return placeOrder('sell', 'BTC', altcoin, balance, price)
-          })
-          .then((result) => {
-            console.log('Sell Order was submitted successfully')
-            store.dispatch(registerNewOrder(result['result']['uuid'], Date.getTime()))
-          })
-          .catch((error) => {
-            console.log('Error during Balance Request and Sell Placement')
-          })
-      }
+      //   getBalance(altcoin)
+      //     .then((balanceResult) => {
+      //       balance = balanceResult['result']['Available']
+      //       return getMarketSummary(altcoin)
+      //     })
+      //     .then((priceDetails) => {
+      //       let price = priceDetails['result'][0]['Bid']
+      //       console.log('Stake: ' + balance + ' for ' + price + ' in ' + altcoin)
+      //       return placeOrder('sell', 'BTC', altcoin, balance, price)
+      //     })
+      //     .then((result) => {
+      //       console.log('Sell Order was submitted successfully')
+      //       store.dispatch(registerNewOrder(result['result']['uuid'], Date.getTime()))
+      //     })
+      //     .catch((error) => {
+      //       console.log('Error during Balance Request and Sell Placement')
+      //     })
+      // }
     })
     .catch((error) => {
       console.log('Error in Main Script')
