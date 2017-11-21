@@ -112,6 +112,7 @@ const runCalculation = (altcoin) => {
       if (buyResult['isActive'] === 'true') {
         console.log('This is an awesome time to buy ' + altcoin)
         console.log(buyResult['currentPoint'])
+        console.log(buyResult['lastWMA'])
         database.ref('trendtrades/' + altcoin).push(buyResult['currentPoint'])
       }else{
         console.log('No Signal for ' + altcoin + ' status is: ' + buyResult['isActive'])
@@ -169,8 +170,6 @@ const weightedAverage = (data) => {
       let wmaOutput = WMA.calculate({period : period, values : values})
       //let slicedWMA = wmaOutput.slice(wmaOutput.length - period)
       let lastWMA = wmaOutput[wmaOutput.length - 1]
-      console.log(lastWMA)
-      console.log(currentPoint)
       breakoutMonitor.push(currentPointClosing > lastWMA)//wmaOutput[wmaOutput.length -1])
       
       let slicedBreakoutMonitor = breakoutMonitor.slice(breakoutMonitor.length - 5)
@@ -187,7 +186,8 @@ const weightedAverage = (data) => {
       if (point == data.length - 1) {
         resolve({
           isActive: isActive,
-          currentPoint: currentPoint
+          currentPoint: currentPoint,
+          lastWMA: lastWMA
         })
       }
 
