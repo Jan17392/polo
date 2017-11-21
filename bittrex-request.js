@@ -2,8 +2,8 @@ import bittrex from 'node.bittrex.api'
 import request from 'request'
 
 bittrex.options({
-  'apikey': '',// process.env.API_KEY,
-  'apisecret': '' // process.env.API_SECRET
+  'apikey': 'f23d5b9e57304ba0a7e978586ad5d245',// process.env.API_KEY,
+  'apisecret': '43609eb76ad344ddb323b20af139ea7b' // process.env.API_SECRET
 });
 
 export function getCandles(altcoin, interval){

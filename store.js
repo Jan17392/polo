@@ -58,6 +58,22 @@ const openOrders = (state={}, action) => {
   }
 }
 
+const trendOrders = (state={}, action) => {
+  switch(action.type) {
+    case 'REGISTER_TREND_TRADE':
+      return {
+        ...state,
+        [action.key]: action.data
+      }
+    case 'UNREGISTER_TREND_TRADE':
+      const orderRemoved = {...state}
+      delete orderRemoved[action.key]
+      return orderRemoved
+    default:
+      return state
+  }
+}
+
 const coinBalance = (state={}, action) => {
   switch(action.type) {
     case 'UPDATE_COIN_BALANCE':
@@ -129,8 +145,20 @@ export const registerArbitrageTrade = (key, data) => ({
   data
 })
 
+export const registerTrendTrade = (key, data) => ({
+  type: 'REGISTER_TREND_TRADE',
+  key,
+  data
+})
+
+export const unregisterTrendTrade = (key) => ({
+  type: 'UNREGISTER_TREND_TRADE',
+  key
+})
+
 export const store = createStore(combineReducers({
   openOrders,
+  trendOrders,
   arbitrageTrades,
   currentSignal,
   coinBalance,
