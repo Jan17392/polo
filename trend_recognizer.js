@@ -113,7 +113,12 @@ const runCalculation = (altcoin) => {
         console.log('This is an awesome time to buy ' + altcoin)
         console.log(buyResult['currentPoint'])
         console.log(buyResult['lastWMA'])
+
+        // Register Trade with Firebase
         database.ref('trendtrades/' + altcoin).push(buyResult['currentPoint'])
+
+        // Start Trade Placement
+        //placeTrade(altcoin, buyResult['currentPoint']['C'])
       }else{
         console.log('No Signal for ' + altcoin + ' status is: ' + buyResult['isActive'])
       }
@@ -170,12 +175,12 @@ const weightedAverage = (data) => {
       let wmaOutput = WMA.calculate({period : period, values : values})
       //let slicedWMA = wmaOutput.slice(wmaOutput.length - period)
       let lastWMA = wmaOutput[wmaOutput.length - 1]
-      breakoutMonitor.push(currentPointClosing > lastWMA)//wmaOutput[wmaOutput.length -1])
+      breakoutMonitor.push(currentPointClosing > lastWMA)
       
       let slicedBreakoutMonitor = breakoutMonitor.slice(breakoutMonitor.length - 5)
       let isBreakout = breakoutMonitor.length >= 5 ? slicedBreakoutMonitor.indexOf(false) > -1 : false
 
-      if (currentPointClosing > lastWMA && isBreakout && isActive === 'false') {
+      if (currentPointClosing > lastWMA * 1.05 && isBreakout && isActive === 'false') {
         isActive = 'true'
       }else if(isActive === 'true'){
         isActive = 'inactive'
