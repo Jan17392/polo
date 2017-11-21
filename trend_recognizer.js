@@ -167,18 +167,20 @@ const weightedAverage = (data) => {
       values.push(currentPointClosing)
       
       let wmaOutput = WMA.calculate({period : period, values : values})
-      let slicedWMA = wmaOutput.slice(wmaOutput.length - period)
-      
-      breakoutMonitor.push(currentPointClosing > wmaOutput[wmaOutput.length -1])
+      //let slicedWMA = wmaOutput.slice(wmaOutput.length - period)
+      let lastWMA = wmaOutput[wmaOutput.length - 1]
+      console.log(lastWMA)
+      console.log(currentPoint)
+      breakoutMonitor.push(currentPointClosing > lastWMA)//wmaOutput[wmaOutput.length -1])
       
       let slicedBreakoutMonitor = breakoutMonitor.slice(breakoutMonitor.length - 5)
       let isBreakout = breakoutMonitor.length >= 5 ? slicedBreakoutMonitor.indexOf(false) > -1 : false
 
-      if (currentPointClosing > (Math.max(...slicedWMA) * 1.05) && isBreakout && isActive === 'false') {
+      if (currentPointClosing > lastWMA && isBreakout && isActive === 'false') {
         isActive = 'true'
       }else if(isActive === 'true'){
         isActive = 'inactive'
-      }else if(currentPointClosing < Math.max(...slicedWMA)){
+      }else if(currentPointClosing < lastWMA){
         isActive = 'false'
       }
 
