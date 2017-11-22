@@ -29,7 +29,7 @@ const altcoinsToMonitor = [
 
 const fraction = 0.1
 const minEdge = 1.0325
-const minBV = 50
+const minBV = 3
 const period = 50
 
 new CronJob('*/2 * * * *', function() {
@@ -48,7 +48,7 @@ const runCalculation = (altcoin) => {
     .then(data => {
       let thisClosingPrice = data['result'][data['result'].length - 1]['C']
       let previousClosingPrice = data['result'][data['result'].length - 2]['C']
-      managePlacedTrades(altcoin, thisClosingPrice, previousClosingPrice)
+      //managePlacedTrades(altcoin, thisClosingPrice, previousClosingPrice)
       return weightedAverage(data['result'])
     })
     .then(buyResult => {
@@ -57,7 +57,7 @@ const runCalculation = (altcoin) => {
         // Register Trade with Firebase
         database.ref('trendtrades/' + altcoin).push(buyResult['currentPoint'])
         // Start Trade Placement
-        placeTrade(altcoin, buyResult['currentPoint']['C'])
+        //placeTrade(altcoin, buyResult['currentPoint']['C'])
       }else{
         console.log('No Signal for ' + altcoin + ' status is: ' + buyResult['isActive'])
       }
