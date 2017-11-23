@@ -32,7 +32,7 @@ const minEdge = 1.02
 const minBV = 5
 const period = 50
 
-new CronJob('*/2 * * * *', function() {
+new CronJob('*/10 * * * *', function() {
   for(let entry in altcoinsToMonitor){
     let altcoin = altcoinsToMonitor[entry]
 
