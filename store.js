@@ -74,6 +74,18 @@ const trendOrders = (state={}, action) => {
   }
 }
 
+const wmas = (state={}, action) => {
+  switch(action.type) {
+    case 'REGISTER_WMA':
+      return {
+        ...state,
+        [action.key]: action.data
+      }
+    default:
+      return state
+  }
+}
+
 const coinBalance = (state={}, action) => {
   switch(action.type) {
     case 'UPDATE_COIN_BALANCE':
@@ -156,11 +168,18 @@ export const unregisterTrendTrade = (key) => ({
   key
 })
 
+export const registerWMA = (key, data) => ({
+  type: 'REGISTER_WMA',
+  key,
+  data
+})
+
 export const store = createStore(combineReducers({
   openOrders,
   trendOrders,
   arbitrageTrades,
   currentSignal,
   coinBalance,
-  prices
+  prices,
+  wmas
 }))
