@@ -32,7 +32,7 @@ const minEdge = 1.02
 const minBV = 5
 const period = 50
 
-new CronJob('*/10 * * * *', function() {
+new CronJob('*/30 * * * * *', function() {
   for(let entry in altcoinsToMonitor){
     let altcoin = altcoinsToMonitor[entry]
 
@@ -58,7 +58,7 @@ const weightedAverage = (data) => {
       // Calculate the WMA data
       let wmaOutput = WMA.calculate({period : period, values : values})
       let lastWMA = wmaOutput[wmaOutput.length - 1]
-      let lastPeriodWMA = wmaOutput.slice(period * -1)
+      let lastPeriodWMA = wmaOutput.slice((period + 1) * -1, -1)
       let lastPeriodMaxWMA = Math.max(...lastPeriodWMA)
 
       // After doing the calculation add the current data point
@@ -112,9 +112,7 @@ new CronJob('*/10 * * * * *', function() {
             currentSummary['lastPeriodMaxWMA'] = altcoinData['lastPeriodMaxWMA']
             database.ref('trendtrades/' + altcoin).push(currentSummary)
           }else{
-            console.log('No Signal for ' + altcoin)
-            console.log('Has Trend Trade: ' + hasTrendTrade)
-            console.log('Is Breakout: ' + isBreakout + ' ' + comparePrice + ' ' + breakoutMonitor)
+
           }
         }
       }
