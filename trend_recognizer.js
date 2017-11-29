@@ -32,7 +32,7 @@ const minEdge = 1.02
 const minBV = 5
 const period = 50
 
-new CronJob('*/30 * * * * *', function() {
+new CronJob('*/20 * * * *', function() {
   for(let entry in altcoinsToMonitor){
     let altcoin = altcoinsToMonitor[entry]
 
@@ -100,7 +100,17 @@ new CronJob('*/10 * * * * *', function() {
           let breakoutMonitor = altcoinData['lastPeriodWMA'].slice(-5)
 
           // Whether at least one price was below avg before - Don't take if ranging over avg.
-          let isBreakout = comparePrice < Math.max(...breakoutMonitor)
+          let isBreakout = altcoinData['lastPeriodMaxWMA'] > Math.min(...breakoutMonitor)
+
+          console.log('ÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖ')
+          console.log('ÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖ')
+          console.log(comparePrice)
+          console.log(breakoutMonitor)
+          console.log(isBreakout)
+          console.log(altcoinData['lastPeriodMaxWMA'])
+          console.log(altcoin)
+          console.log('ÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖ')
+          console.log('ÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖÖ')
 
           if(comparePrice > altcoinData['lastPeriodMaxWMA'] && isBreakout){
             console.log('This is a great time to buy!')
