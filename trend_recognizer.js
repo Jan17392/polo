@@ -30,7 +30,7 @@ const altcoinsToMonitor = [
 const fraction = 0.1
 const minEdge = 1.02
 const minBV = 5
-const period = 50
+const period = 15
 
 new CronJob('*/20 * * * *', function() {
   for(let entry in altcoinsToMonitor){
